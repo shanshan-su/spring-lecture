@@ -2,11 +2,11 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<head th:replace="/partials/head :: head">
+<head th:replace="/fragments/head :: head">
     <title>Users</title>
 </head>
 <body>
-<nav th:replace="/partials/navbar :: bootstrap_navbar"></nav>
+<nav th:replace="/fragments/navbar :: bootstrap_navbar"></nav>
 <main>
     <h1>Here are all the users.</h1>
     <!--<p>first name - <span th:text="${user.firstName}"></span></p>-->
@@ -19,6 +19,6 @@
     </div>
 </main>
 
-<footer th:replace="/partials/footer :: footer"></footer>
+<footer th:replace="/fragments/footer :: footer"></footer>
 </body>
 </html>

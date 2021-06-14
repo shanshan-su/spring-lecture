@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head">
+    <meta charset="UTF-8" />
+    <title>Show Ad</title>
+</head>
+<body>
+<nav th:replace="/fragments/navbar :: bootstrap_navbar"></nav>
+<div class="container">
+    <div th:if="${ad == null}">
+        Ad not found.
+    </div>
+    <div th:if="${ad}">
+        <div th:text="${adId}">ID</div>
+        <h3 th:text="${ad.title}">Title</h3>
+        <div th:text="${ad.description}">Description</div>
+        <div>Created by <span th:text="${ad.owner.username}"></span></div>
+    </div>
+
+    <div th:each="image : ${ad.images}">
+        <img th:src="${image.path}" th:alt="${image.description}">
+    </div>
+</div>
+
+</body>
+</html>

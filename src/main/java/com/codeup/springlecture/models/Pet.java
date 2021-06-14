@@ -1,4 +1,4 @@
-package com.codeup.springlecture;
+package com.codeup.springlecture.models;
 
 import javax.persistence.*;
 

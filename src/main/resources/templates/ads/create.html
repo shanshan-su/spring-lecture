@@ -1,0 +1,19 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head">
+    <title>Create an Ad</title>
+</head>
+<body>
+<nav th:replace="/fragments/navbar :: bootstrap_navbar"></nav>
+<div class="container">
+    <form action="/ads/create" method="post">
+        Title:
+        <input name="title" />
+        <br />
+        Description:
+        <input name="description" />
+        <br />
+        <input type="submit" />
+    </form>
+</div>
+</body>
+</html>
