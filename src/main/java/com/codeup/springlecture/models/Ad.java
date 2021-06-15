@@ -24,24 +24,34 @@ public class Ad {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "ad")
     private List<AdImage> images;
 
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name="ads_categories",
+            joinColumns={@JoinColumn(name="ad_id")},
+            inverseJoinColumns={@JoinColumn(name="category_id")}
+    )
+    private List<AdCategory> categories;
+
 
     // Spring framework uses this zero argument constructor
     public Ad() {
     }
 
-    public Ad(String title, String description, User owner, List<AdImage> images) {
+    public Ad(String title, String description, User owner, List<AdImage> images, List<AdCategory> categories) {
         this.title = title;
         this.description = description;
         this.owner = owner;
         this.images = images;
+        this.categories = categories;
     }
 
-    public Ad(long id, String title, String description, User owner, List<AdImage> images) {
+    public Ad(long id, String title, String description, User owner, List<AdImage> images, List<AdCategory> categories) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.owner = owner;
         this.images = images;
+        this.categories = categories;
     }
 
     public long getId() {
@@ -68,7 +78,6 @@ public class Ad {
     public User getOwner() {
         return owner;
     }
-
     public void setOwner(User owner) {
         this.owner = owner;
     }
@@ -76,8 +85,14 @@ public class Ad {
     public List<AdImage> getImages() {
         return images;
     }
-
     public void setImages(List<AdImage> images) {
         this.images = images;
+    }
+
+    public List<AdCategory> getCategories() {
+        return categories;
+    }
+    public void setCategories(List<AdCategory> categories) {
+        this.categories = categories;
     }
 }

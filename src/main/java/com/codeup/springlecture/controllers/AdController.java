@@ -44,7 +44,7 @@ public class AdController {
     public String save(@RequestParam(value = "title") String title,
                        @RequestParam(value = "description") String description) {
         User user = usersDao.getById(1L);
-        Ad newAd = new Ad(title, description, user, null);
+        Ad newAd = new Ad(title, description, user, null, null);
         Ad savedAd = adsDao.save(newAd);
         return "redirect:/ads/" + savedAd.getId();
     }
