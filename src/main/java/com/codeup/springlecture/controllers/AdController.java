@@ -1,5 +1,7 @@
 package com.codeup.springlecture.controllers;
 
+import com.codeup.springlecture.services.EmailService;
+import com.codeup.springlecture.services.StringService;
 import com.codeup.springlecture.models.Ad;
 import com.codeup.springlecture.daos.AdRespository;
 import com.codeup.springlecture.models.User;
@@ -14,10 +16,14 @@ import java.util.List;
 public class AdController {
     private final AdRespository adsDao;
     private final UsersRepository usersDao;
+    private final StringService stringService;
+    private final EmailService emailService;
 
-    public AdController(AdRespository adRespository, UsersRepository usersRepository) {
+    public AdController(AdRespository adRespository, UsersRepository usersRepository, StringService stringService, EmailService emailService) {
         this.adsDao = adRespository;
         this.usersDao = usersRepository;
+        this.stringService = stringService;
+        this.emailService = emailService;
     }
 
     @GetMapping("/ads")
@@ -30,8 +36,12 @@ public class AdController {
 
     @GetMapping("/ads/{id}")
     public String show(@PathVariable long id, Model model){
+        Ad ad = adsDao.getById(id);
         model.addAttribute("adId", id);
-        model.addAttribute("ad", adsDao.getById(id));
+        model.addAttribute("ad", ad);
+
+        String shortUsername = stringService.shortenString(ad.getOwner().getUsername());
+        model.addAttribute("shoertUsername", shortUsername);
         return "ads/show";
     }
 
@@ -46,6 +56,9 @@ public class AdController {
         User user = usersDao.getById(1L);
         ad.setOwner(user);
         Ad savedAd = adsDao.save(ad);
+
+        // send out an email to the creator of the ad
+        emailService.prepareAndSend(ad, "New Ad Created", ad.getDescription());
         return "redirect:/ads/" + savedAd.getId();
     }
 
