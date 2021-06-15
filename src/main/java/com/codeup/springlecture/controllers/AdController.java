@@ -36,16 +36,16 @@ public class AdController {
     }
 
     @GetMapping("/ads/create")
-    public String showForm() {
+    public String showForm(Model model) {
+        model.addAttribute("ad", new Ad());
         return "ads/create";
     }
 
     @PostMapping("/ads/create")
-    public String save(@RequestParam(value = "title") String title,
-                       @RequestParam(value = "description") String description) {
+    public String save(@ModelAttribute Ad ad) {
         User user = usersDao.getById(1L);
-        Ad newAd = new Ad(title, description, user, null, null);
-        Ad savedAd = adsDao.save(newAd);
+        ad.setOwner(user);
+        Ad savedAd = adsDao.save(ad);
         return "redirect:/ads/" + savedAd.getId();
     }
 
