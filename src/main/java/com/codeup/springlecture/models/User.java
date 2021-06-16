@@ -36,8 +36,16 @@ public class User {
         this.password = password;
     }
 
-    // getters and setters
+    // copy constructor
+    public User(User copy) {
+        this.id = copy.id; // This line is SUPER important! Many things won't work if it's absent
+        this.email = copy.email;
+        this.username = copy.username;
+        this.password = copy.password;
+    }
 
+
+    // getters and setters
     public long getId() {
         return id;
     }
