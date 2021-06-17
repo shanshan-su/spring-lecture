@@ -1,11 +1,11 @@
 package com.codeup.springlecture.controllers;
 
+import com.codeup.springlecture.daos.AdCategoryRepository;
 import com.codeup.springlecture.services.EmailService;
 import com.codeup.springlecture.services.StringService;
 import com.codeup.springlecture.models.Ad;
-import com.codeup.springlecture.daos.AdRespository;
+import com.codeup.springlecture.daos.AdsRespository;
 import com.codeup.springlecture.models.User;
-import com.codeup.springlecture.daos.UsersRepository;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,12 +15,14 @@ import java.util.List;
 
 @Controller
 public class AdController {
-    private final AdRespository adsDao;
+    private final AdsRespository adsDao;
+    private final AdCategoryRepository adCategoryDao;
     private final StringService stringService;
     private final EmailService emailService;
 
-    public AdController(AdRespository adRespository, StringService stringService, EmailService emailService) {
-        this.adsDao = adRespository;
+    public AdController(AdsRespository adsRespository, AdCategoryRepository adCategoryDao, StringService stringService, EmailService emailService) {
+        this.adsDao = adsRespository;
+        this.adCategoryDao = adCategoryDao;
         this.stringService = stringService;
         this.emailService = emailService;
     }
@@ -47,6 +49,7 @@ public class AdController {
     @GetMapping("/ads/create")
     public String showForm(Model model) {
         model.addAttribute("ad", new Ad());
+        model.addAttribute("categories", adCategoryDao.findAll());
         return "ads/create";
     }
 

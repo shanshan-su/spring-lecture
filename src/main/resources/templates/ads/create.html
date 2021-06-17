@@ -13,7 +13,18 @@
         <input name="description" th:field="*{description}"/>
         <br />
         Categories
-<!--        <input name="categories" type="text" th:field="*{categories}"/>-->
+        <!--        Idea One: The Select Path -->
+<!--        <select multiple="multiple" name="categories" type="text" th:field="${ad.categories}" class="form-control">-->
+<!--            <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>-->
+<!--        </select>-->
+
+        <!--        Idea Two: The Div Path -->
+        <div th:each="category : ${categories}">
+            <label th:class="${'category' + category.id}">
+                <input type="checkbox" name="categories" th:field="*{categories}" th:value="${category.id}" th:text="${category.name}">
+            </label>
+
+        </div>
         <input type="submit" />
     </form>
 </div>
