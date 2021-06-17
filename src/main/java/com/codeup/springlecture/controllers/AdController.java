@@ -6,6 +6,7 @@ import com.codeup.springlecture.models.Ad;
 import com.codeup.springlecture.daos.AdRespository;
 import com.codeup.springlecture.models.User;
 import com.codeup.springlecture.daos.UsersRepository;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -15,13 +16,11 @@ import java.util.List;
 @Controller
 public class AdController {
     private final AdRespository adsDao;
-    private final UsersRepository usersDao;
     private final StringService stringService;
     private final EmailService emailService;
 
-    public AdController(AdRespository adRespository, UsersRepository usersRepository, StringService stringService, EmailService emailService) {
+    public AdController(AdRespository adRespository, StringService stringService, EmailService emailService) {
         this.adsDao = adRespository;
-        this.usersDao = usersRepository;
         this.stringService = stringService;
         this.emailService = emailService;
     }
@@ -41,7 +40,7 @@ public class AdController {
         model.addAttribute("ad", ad);
 
         String shortUsername = stringService.shortenString(ad.getOwner().getUsername());
-        model.addAttribute("shoertUsername", shortUsername);
+        model.addAttribute("shortUsername", shortUsername);
         return "ads/show";
     }
 
@@ -53,7 +52,7 @@ public class AdController {
 
     @PostMapping("/ads/create")
     public String save(@ModelAttribute Ad ad) {
-        User user = usersDao.getById(1L);
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         ad.setOwner(user);
         Ad savedAd = adsDao.save(ad);
 
