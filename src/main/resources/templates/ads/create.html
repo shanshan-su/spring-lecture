@@ -1,5 +1,6 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/head :: head">
+<!--    <meta name="filestackapi" th:content="${filestackapi}">-->
     <title>Create an Ad</title>
 </head>
 <body>
@@ -28,5 +29,17 @@
         <input type="submit" />
     </form>
 </div>
+
+
+<script th:inline="javascript">
+
+    /*<![CDATA[*/
+
+    const fileStackApiKey = [[${filestackapi}]];
+    console.log(fileStackApiKey);
+
+    /*]]>*/
+
+</script>
 </body>
 </html>

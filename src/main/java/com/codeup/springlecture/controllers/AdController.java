@@ -6,6 +6,7 @@ import com.codeup.springlecture.services.StringService;
 import com.codeup.springlecture.models.Ad;
 import com.codeup.springlecture.daos.AdsRespository;
 import com.codeup.springlecture.models.User;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +20,10 @@ public class AdController {
     private final AdCategoryRepository adCategoryDao;
     private final StringService stringService;
     private final EmailService emailService;
+
+    // importing in the FileStack API key
+    @Value("${filestack.api.key")
+    private String fileStackApi;
 
     public AdController(AdsRespository adsRespository, AdCategoryRepository adCategoryDao, StringService stringService, EmailService emailService) {
         this.adsDao = adsRespository;
@@ -50,6 +55,7 @@ public class AdController {
     public String showForm(Model model) {
         model.addAttribute("ad", new Ad());
         model.addAttribute("categories", adCategoryDao.findAll());
+        model.addAttribute("filestackapi", fileStackApi);
         return "ads/create";
     }
 
