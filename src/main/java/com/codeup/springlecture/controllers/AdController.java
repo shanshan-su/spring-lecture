@@ -4,7 +4,7 @@ import com.codeup.springlecture.daos.AdCategoryRepository;
 import com.codeup.springlecture.services.EmailService;
 import com.codeup.springlecture.services.StringService;
 import com.codeup.springlecture.models.Ad;
-import com.codeup.springlecture.daos.AdsRespository;
+import com.codeup.springlecture.daos.AdsRepository;
 import com.codeup.springlecture.models.User;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,7 +16,7 @@ import java.util.List;
 
 @Controller
 public class AdController {
-    private final AdsRespository adsDao;
+    private final AdsRepository adsDao;
     private final AdCategoryRepository adCategoryDao;
     private final StringService stringService;
     private final EmailService emailService;
@@ -25,8 +25,8 @@ public class AdController {
     @Value("${filestack.api.key")
     private String fileStackApi;
 
-    public AdController(AdsRespository adsRespository, AdCategoryRepository adCategoryDao, StringService stringService, EmailService emailService) {
-        this.adsDao = adsRespository;
+    public AdController(AdsRepository adsRepository, AdCategoryRepository adCategoryDao, StringService stringService, EmailService emailService) {
+        this.adsDao = adsRepository;
         this.adCategoryDao = adCategoryDao;
         this.stringService = stringService;
         this.emailService = emailService;
@@ -79,7 +79,6 @@ public class AdController {
     }
 
     @PostMapping("/ads/{id}/edit")
-    @ResponseBody
     public String update(@PathVariable long id,
                          @RequestParam(name = "title") String title,
                          @RequestParam(name = "description") String desc){
@@ -90,7 +89,7 @@ public class AdController {
         foundAd.setDescription(desc);
         // save the changes
         adsDao.save(foundAd); // update ads set title = ? where id = ?
-        return "ad updated";
+        return "redirect:/ads/"  + foundAd.getId();
     }
 
     @PostMapping("/ads/{id}/delete")

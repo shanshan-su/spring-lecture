@@ -10,6 +10,7 @@
     <div th:if="${noAdsFound}">
         No ads were found.
     </div>
+    <h2>All Ads</h2>
     <div th:each="ad : ${ads}">
         <h3 th:text="${ad.title}">Title</h3>
         <div th:text="${ad.description}">Description</div>

@@ -1,6 +1,6 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/head :: head">
-<!--    <meta name="filestackapi" th:content="${filestackapi}">-->
+    <meta name="filestackapi" th:content="${filestackapi}">
     <title>Create an Ad</title>
 </head>
 <body>
@@ -26,17 +26,37 @@
             </label>
 
         </div>
-        <input type="submit" />
+        <button id="upload">Upload Your images</button>
+
+        <input th:type="hidden" id="stashFileStackURL" th:value="replacement" th:field="*{images}">
     </form>
 </div>
 
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+<script src="//static.filestackapi.com/filestack-js/3.x.x/filestack.min.js"></script>
 <script th:inline="javascript">
 
     /*<![CDATA[*/
 
-    const fileStackApiKey = [[${filestackapi}]];
-    console.log(fileStackApiKey);
+    (function() {
+        const fileStackApiKey = [[${filestackapi}]];
+        console.log(fileStackApiKey);
+
+        const client = filestack.init(fileStackApiKey);
+        const options = {
+            onUploadDone:
+                function (res){
+                    console.log(res.filesUploaded[0].url);
+                    $("#stashFileStackURL").val(res.filesUploaded[0].url);
+                }
+        }
+
+        $("#upload").click(() => {
+            client.picker(options).open();
+        });
+
+    })();
 
     /*]]>*/
 
